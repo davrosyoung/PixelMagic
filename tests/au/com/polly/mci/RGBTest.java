@@ -1,11 +1,11 @@
 package au.com.polly.mci;
 
+import junit.framework.JUnit4TestAdapter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import static org.junit.Assert.fail;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+
+import static org.junit.Assert.*;
 
 /**
  * Created by dave on 21/03/2014.
@@ -13,6 +13,9 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(JUnit4.class)
 public class RGBTest
 {
+
+public static junit.framework.Test suite() { return new JUnit4TestAdapter( RGBTest.class ); }
+
 
 private static byte[] v = new byte[]{ (byte)0xE3, (byte)0xC7, (byte)0x42 };
 private static byte[] u = new byte[]{ (byte)0xE3, (byte)0xC7, (byte)0x42 };
@@ -54,7 +57,37 @@ public void testArrayConstructor()
 @Test
 public void testEquals()
 {
-    fail( "Not yet implemented" );
+    RGB alpha = new RGB( v );
+    RGB beta = new RGB( u );
+
+    assertNotNull( alpha );
+    assertNotNull( beta );
+    assertEquals( alpha, beta );
+
+    beta = new RGB( w );
+    assertNotNull( alpha );
+    assertNotNull( beta );
+    assertNotEquals( alpha, beta );
+
+
+    beta = new RGB( x );
+    assertNotNull( alpha );
+    assertNotNull( beta );
+    assertNotEquals( alpha, beta );
+
+
+    beta = new RGB( y );
+    assertNotNull( alpha );
+    assertNotNull( beta );
+    assertNotEquals( alpha, beta );
+
+
+    beta = new RGB( z );
+    assertNotNull( alpha );
+    assertNotNull( beta );
+    assertNotEquals(alpha, beta);
+
+
 }
 
 }
