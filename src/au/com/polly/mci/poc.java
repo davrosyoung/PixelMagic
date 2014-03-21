@@ -12,25 +12,27 @@ import java.io.IOException;
 public class poc
 {
 private final static String DEFAULT_IMAGE_FILE_NAME = "poc.png";
-
+private final static int WIDTH = 32 * 8;
+private final static int HEIGHT = 32 * 4;
 
 public static void main( String[] argv )
 {
     File imageFile = null;
-    BufferedImage image = new BufferedImage( 256, 256, BufferedImage.TYPE_INT_RGB );
+    BufferedImage image = new BufferedImage( WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB );
     WritableRaster rasta = image.getRaster();
     long then = System.currentTimeMillis();
-    for( int i = 0; i < 256; i++ )
+    for( int i = 0; i < WIDTH; i++ )
     {
-        for ( int j = 0; j < 256; j++ )
+        for ( int j = 0; j < HEIGHT; j++ )
         {
- //           int r = ( i >>> 3 ) << 3;
- //           int g = ( j >>> 3 ) << 3;
- //           int b = ( j % 32 ) << 3;
+            int r = i & 0xf8;       // r only changes value every 8th column, just use the top 5 bits.
+            int g = j & 0xfc;       // g only changes value every 4th row, just take the top 6 bits.
+            int b = ( ( j & 0x03 ) << 6 ) + ( ( i & 0x07 ) << 2 ); // b varies within a 8x4 grid....
+                                    // multiple the bottom 2 bits of the row by 8 and add the bottom
+                                    // three bits of the column to it.
 
-            int r = i & 0xf8;
-            int g = j & 0xf8;
-            int b = ( j & 0x17 ) << 3;
+//            System.out.printf( "b=%03X\n", b );
+
 
             rasta.setPixel( i, j, new int[] { r, g, b } );
         }
@@ -38,18 +40,30 @@ public static void main( String[] argv )
     long now = System.currentTimeMillis();
     System.out.println( "Took " + ( now - then ) + "ms to calculate." );
 
+    String imageDirectory = null;
+
+    if ( System.getenv().containsKey( "IMAGEDIR" ) )
+    {
+        imageDirectory = System.getenv( "IMAGEDIR" );
+    } else {
+        imageDirectory = System.getProperty( "image.dir" );
+    }
+    String path;
+
     try {
         if (argv.length > 0)
         {
+            path = imageDirectory + File.separator + argv[ 0 ];
             try {
-                imageFile = new File( argv[ 0 ] );
+                imageFile = new File( path );
             } catch( Exception e ) {
-                System.err.println( "Invalid file name \"" + argv[ 0 ] + "\"" );
+                System.err.println( "Invalid file name \"" + path + "\"" );
             }
         }
         if ( imageFile == null )
         {
-            imageFile = new File( DEFAULT_IMAGE_FILE_NAME );
+            path = imageDirectory + File.separator + DEFAULT_IMAGE_FILE_NAME;
+            imageFile = new File( path );
         }
         ImageIO.write(image, "png", imageFile );
     } catch( Exception e ) {
