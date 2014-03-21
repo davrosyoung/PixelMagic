@@ -5,6 +5,7 @@
     <content url="file://$USER_HOME$/projects/mci">
       <sourceFolder url="file://$USER_HOME$/projects/mci/src" isTestSource="false" />
       <sourceFolder url="file://$USER_HOME$/projects/mci/tests" isTestSource="true" />
+      <sourceFolder url="file://$USER_HOME$/projects/mci/images" type="java-test-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
