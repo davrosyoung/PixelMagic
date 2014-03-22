@@ -25,13 +25,11 @@ import static org.junit.Assert.*;
 public class ImageVerifierTest
 {
 public static junit.framework.Test suite() { return new JUnit4TestAdapter( ImageVerifierTest.class ); }
-    // atrocious hack follows!!!
+// the following should really be read from a property file!!
 private static String uniqueSixteenPixelFilename = "unique4x4.png";
 private static String duplicateSixteenPixelFilename = "duplicate4x4.png";
-//    private static String uniqueSixteenPixelFilename = "unique4x4.png";
-//    private static String duplicateSixteenPixelFilename = "duplicate4x4.png";
-private static String uniqueSixteenPixelPath;
-private static String duplicateSixteenPixelPath;
+private static String uniqueSixteenPixelPath;       // full path to image file
+private static String duplicateSixteenPixelPath;    // full path to image file.
 
 @BeforeClass
 static public void setup()

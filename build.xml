@@ -1,0 +1,101 @@
+<project name="mci" default="dist">
+
+    <description>Multi Colour Image</description>
+
+    <property name="test_source" location="tests"/>
+    <property name="source" location="src"/>
+    <property name="test_classes" location="out/test/mci"/>
+    <property name="classes" location="out/production/mci"/>
+    <property name="dist" location="dist"/>
+    <property name="images" location="images"/>
+    <property name="image" value="poc.png"/>
+
+
+    <path id="class.path">
+        <fileset dir="lib">
+            <include name="*.jar"/>
+            <include name="**/*.jar"/>
+        </fileset>
+        <pathelement path="conf"/>
+        <pathelement path="${classes}"/>
+    </path>
+
+    <path id="test.class.path">
+        <path refid="class.path"/>
+        <pathelement path="${test_classes}"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="${test_classes}"/>
+        <delete dir="${classes}"/>
+        <delete dir="${dist}"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${classes}"/>
+        <javac srcdir="${source}" destdir="${classes}" debug="true" debuglevel="lines,vars,source">
+            <classpath refid="class.path"/>
+        </javac>
+    </target>
+
+    <target name="compile.tests" depends="compile">
+        <mkdir dir="${test_classes}"/>
+        <javac srcdir="${test_source}" destdir="${test_classes}">
+            <classpath refid="test.class.path"/>
+        </javac>
+    </target>
+
+    <target name="dist" depends="compile,compile.tests">
+        <mkdir dir="dist"/>
+        <jar jarfile="dist/mci.jar" basedir="${classes}">
+            <manifest>
+                <attribute name="Main-Class" value="au.com.polly.mci.POC"/>
+            </manifest>
+        </jar>
+        <jar jarfile="dist/mci_tests.jar">
+            <fileset dir="${test_classes}">
+                <include name="**/*.class"/>
+            </fileset>
+            <fileset dir=".">
+                <include name="${images}/duplicate4x4.png"/>
+                <include name="${images}/unique4x4.png"/>
+            </fileset>
+        </jar>
+    </target>
+
+    <target name="test" depends="compile,compile.tests">
+        <junit fork="yes" haltonfailure="no">
+            <batchtest>
+                <fileset dir="${test_classes}" includes="**/Test*.class" />
+                <fileset dir="${test_classes}" includes="**/*Test.class" />
+            </batchtest>
+            <formatter type="plain" usefile="false" />
+            <classpath refid="test.class.path"/>
+        </junit>
+    </target>
+
+    <target name="poc" depends="dist" description="Produces proof of concept image">
+        <java jar="${dist}/mci.jar" fork="true">
+            <arg value="poc.png/"/>
+            <jvmarg value="-Dimage.dir=images"/>
+        </java>
+    </target>
+
+    <target name="verify" depends="dist" description="Checks an image for unqiue pixel values">
+        <java fork="true" classname="au.com.polly.mci.ImageVerifier">
+            <classpath refid="class.path"/>
+            <arg value="${image}"/>
+            <jvmarg value="-Dimage.dir=images"/>
+        </java>
+    </target>
+
+
+    <target name="debug">
+        <echoproperties/>
+        <property name="debugClassPath" refid="class.path"/>
+        <echo>classpath is ${debugClassPath}</echo>
+        <property name="debugTestClassPath" refid="test.class.path"/>
+        <echo>test.class.path is ${debugTestClassPath}</echo>
+    </target>
+
+</project>

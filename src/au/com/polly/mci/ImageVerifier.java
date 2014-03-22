@@ -91,30 +91,32 @@ public static void main(String[] argv)
     {
         for ( int i = 0; i < argv.length; i++ )
         {
-            file = new File( argv[ i ] );
-            if ( file.exists() && file.canRead() && file.isFile() )
-            {
-                try {
-                    image = ImageIO.read(file);
-                    verifier = new ImageVerifier( image );
-                    verifier.interrogate();
-                    if ( verifier.isEachPixelUnique() )
-                    {
-                        System.out.println( "OK> Image \"" + argv[ i ] + "\" contains unique pixels" );
-                    } else {
-                        System.out.println( "FAIL> Image \"" + argv[ i ] + "\" contains duplicate pixels." );
-                        exitCode = 1;
-                    }
-                    System.out.flush();
+            String imageDirectory = MCIUtil.determineImageDirectory();
 
-                } catch( IOException ioe ) {
-                    System.err.println( "ERROR processing \"" + argv[ i ] + "\"" );
-                    System.err.println( ioe.getClass().getName() + " -  " + ioe.getMessage() );
+            try {
+            file = MCIUtil.obtainFile( argv[ i ], imageDirectory );
+
+                if ( file.exists() && file.canRead() && file.isFile() )
+                {
+                        image = ImageIO.read( file );
+                        verifier = new ImageVerifier( image );
+                        verifier.interrogate();
+                        if ( verifier.isEachPixelUnique() )
+                        {
+                            System.out.println( "OK> Image \"" + argv[ i ] + "\" contains unique pixels" );
+                        } else {
+                            System.out.println( "FAIL> Image \"" + argv[ i ] + "\" contains duplicate pixels." );
+                            exitCode = 1;
+                        }
+                        System.out.flush();
+                } else {
+                    System.err.println( "Unable to open file \"" + argv[ i ] + "\" for processing." );
                     System.err.flush();
                     exitCode = 1;
                 }
-            } else {
-                System.err.println( "Unable to open file \"" + argv[ i ] + "\" for processing." );
+            } catch( IOException ioe ) {
+                System.err.println( "ERROR processing \"" + argv[ i ] + "\"" );
+                System.err.println( ioe.getClass().getName() + " -  " + ioe.getMessage() );
                 System.err.flush();
                 exitCode = 1;
             }
