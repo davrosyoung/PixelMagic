@@ -8,7 +8,6 @@
     <property name="classes" location="out/production/mci"/>
     <property name="dist" location="dist"/>
     <property name="images" location="images"/>
-    <property name="image" value="poc.png"/>
 
 
     <path id="class.path">
@@ -61,6 +60,17 @@
                 <include name="${images}/unique4x4.png"/>
             </fileset>
         </jar>
+        <jar jarfile="mci_bundle.zip">
+            <fileset dir=".">
+                <include name="dist/*.jar"/>
+                <include name="lib/*.jar"/>
+                <include name="images/*.png"/>
+                <include name="src/**/*.java"/>
+                <include name="tests/**/*.java"/>
+                <include name="readme.html"/>
+                <include name="build.xml"/>
+            </fileset>
+        </jar>
     </target>
 
     <target name="test" depends="compile,compile.tests">
@@ -74,21 +84,12 @@
         </junit>
     </target>
 
-    <target name="poc" depends="dist" description="Produces proof of concept image">
+    <target name="poc">
         <java jar="${dist}/mci.jar" fork="true">
-            <arg value="poc.png/"/>
-            <jvmarg value="-Dimage.dir=images"/>
+            <arg>poc.png</arg>
+            <jvmarg>-Dimage.dir=images</jvmarg>
         </java>
     </target>
-
-    <target name="verify" depends="dist" description="Checks an image for unqiue pixel values">
-        <java fork="true" classname="au.com.polly.mci.ImageVerifier">
-            <classpath refid="class.path"/>
-            <arg value="${image}"/>
-            <jvmarg value="-Dimage.dir=images"/>
-        </java>
-    </target>
-
 
     <target name="debug">
         <echoproperties/>
