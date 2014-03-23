@@ -34,14 +34,9 @@ private static String duplicateSixteenPixelPath;    // full path to image file.
 @BeforeClass
 static public void setup()
 {
-    String imageDirectory = null;
-
-    if ( System.getenv().containsKey( "IMAGEDIR" ) )
-    {
-        imageDirectory = System.getenv( "IMAGEDIR" );
-    } else {
-        imageDirectory = System.getProperty( "image.dir" );
-    }
+    String imageDirectory = MCIUtil.determineImageDirectory();
+    System.out.println( "Obtained imageDirectory=\"" + imageDirectory + "\"" );
+    assertNotNull( imageDirectory );
     uniqueSixteenPixelPath = imageDirectory + File.separator + uniqueSixteenPixelFilename;
     duplicateSixteenPixelPath = imageDirectory + File.separator + duplicateSixteenPixelFilename;
 }

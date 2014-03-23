@@ -17,12 +17,12 @@ public class RGBTest
 public static junit.framework.Test suite() { return new JUnit4TestAdapter( RGBTest.class ); }
 
 
-private static byte[] v = new byte[]{ (byte)0xE3, (byte)0xC7, (byte)0x42 };
-private static byte[] u = new byte[]{ (byte)0xE3, (byte)0xC7, (byte)0x42 };
-private static byte[] w = new byte[]{ (byte)0xE2, (byte)0xC6, (byte)0x43 };
-private static byte[] x = new byte[]{ (byte)0xE2, (byte)0xC7, (byte)0x42 };
-private static byte[] y = new byte[]{ (byte)0xE3, (byte)0xC6, (byte)0x42 };
-private static byte[] z = new byte[]{ (byte)0xE3, (byte)0xC7, (byte)0x43 };
+private static int[] v = new int[]{ 0xE3, 0xC7, 0x42 };
+private static int[] u = new int[]{ 0xE3, 0xC7, 0x42 };
+private static int[] w = new int[]{ 0xE2, 0xC6, 0x43 };
+private static int[] x = new int[]{ 0xE2, 0xC7, 0x42 };
+private static int[] y = new int[]{ 0xE3, 0xC6, 0x42 };
+private static int[] z = new int[]{ 0xE3, 0xC7, 0x43 };
 
 
 @Test
@@ -30,9 +30,15 @@ public void testIntegerConstructor()
 {
     RGB pixel = new RGB( 0xE3C742 );
     assertNotNull( pixel );
-    assertEquals( (byte)0xE3, pixel.getRed() );
-    assertEquals( (byte)0xC7, pixel.getGreen() );
-    assertEquals( (byte)0x42, pixel.getBlue() );
+    assertEquals( 0xE3, pixel.getRed() );
+    assertEquals( 0xC7, pixel.getGreen() );
+    assertEquals( 0x42, pixel.getBlue() );
+
+    pixel = new RGB( 0x000000 );
+    assertNotNull( pixel );
+    assertEquals( 0x00, pixel.getRed() );
+    assertEquals( 0x00, pixel.getGreen() );
+    assertEquals( 0x00, pixel.getBlue() );
 }
 
 @Test
@@ -86,7 +92,49 @@ public void testEquals()
     assertNotNull( alpha );
     assertNotNull( beta );
     assertNotEquals(alpha, beta);
+}
 
+@Test
+public void testCompareTo()
+{
+    RGB alpha = new RGB( 0x000000 );
+    RGB beta = new RGB( 0x000000 );
+
+    assertEquals( alpha, beta );
+    assertEquals( 0, alpha.compareTo( beta ) );
+    assertEquals( 0, beta.compareTo( alpha ) );
+
+    alpha = new RGB( 0x000007 );
+    assertNotEquals( alpha, beta );
+    assertEquals( 1, alpha.compareTo( beta ) );
+    assertEquals( -1, beta.compareTo( alpha ) );
+
+    beta = new RGB( 0x000700 );
+    assertNotEquals( alpha, beta );
+    assertEquals( -1, alpha.compareTo( beta ) );
+    assertEquals( 1, beta.compareTo( alpha ) );
+
+    alpha = new RGB( 0x07, 0x00, 0x00 );
+    assertNotEquals( alpha, beta );
+    assertEquals( 1, alpha.compareTo( beta ) );
+    assertEquals( -1, beta.compareTo( alpha ) );
+
+    alpha = new RGB( 0x07, 0x07, 0x07 );
+    beta = new RGB( 0x07, 0x07, 0x07 );
+    assertEquals( alpha, beta );
+    assertEquals( 0, alpha.compareTo( beta ) );
+    assertEquals( 0, beta.compareTo( alpha ) );
+
+    beta = new RGB( 0x08, 0x07, 0x06 );
+    assertNotEquals( alpha, beta );
+    assertEquals( -1, alpha.compareTo( beta ) );
+    assertEquals( 1, beta.compareTo( alpha ) );
+
+
+    beta = new RGB( 0x06, 0x07, 0x08 );
+    assertNotEquals( alpha, beta );
+    assertEquals( 1, alpha.compareTo( beta ) );
+    assertEquals( -1, beta.compareTo( alpha ) );
 
 }
 
