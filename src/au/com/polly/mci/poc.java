@@ -99,11 +99,15 @@ public static void main( String[] argv )
         // If an image filename was specified on the command line, then use that,
         // otherwise use the default image filename..
         // -----------------------------------------------------------------------
-        imageFile = MCIUtil.obtainFile( argv[ 0 ].length() > 0 ? argv[0] : DEFAULT_IMAGE_FILE_NAME , imageDirectory );
+        imageFile = MCIUtil.obtainFile( argv.length > 0 ? argv[0] : DEFAULT_IMAGE_FILE_NAME , imageDirectory );
         ImageIO.write(image, "png", imageFile );
         System.out.println( "OK> Just wrote out image to \"" + imageFile.getAbsolutePath() + "\"" );
     } catch( Exception e ) {
-        System.err.println( "OOOhhh Errr!!" + e.getClass().getName() + ":" + e.getMessage() + " - \"" + imageFile.getAbsolutePath() + "\"" );
+        System.err.println( "OOOhhh Errr!!" + e.getClass().getName() + ":" + e.getMessage() );
+        if ( imageFile != null )
+        {
+            System.err.println( "file  - \"" + imageFile.getAbsolutePath() + "\"" );
+        }
         System.err.flush();
         exitCode = 1;
     }
