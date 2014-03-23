@@ -8,7 +8,7 @@
     <property name="classes" location="out/production/mci"/>
     <property name="dist" location="dist"/>
     <property name="images" location="images"/>
-    <property name="image" location="POC.png"/>
+    <property name="image" value="POC.png"/>  <!-- important to use value NOT location -->
 
 
     <path id="class.path">
@@ -34,7 +34,6 @@
     <target name="compile">
         <mkdir dir="${classes}"/>
         <javac srcdir="${source}" destdir="${classes}" debug="true" debuglevel="lines,vars,source">
-            <classpath refid="class.path"/>
         </javac>
     </target>
 
@@ -85,15 +84,15 @@
         </junit>
     </target>
 
-    <target name="poc">
+    <target name="poc" depends="dist" description="output image with unique coloured pixels">
         <java jar="${dist}/mci.jar" fork="true">
-            <arg>poc.png</arg>
-            <jvmarg>-Dimage.dir=images</jvmarg>
+            <arg value="${image}"/>
+            <jvmarg value="-Dimage.dir=${images}"/>
         </java>
     </target>
 
 
-    <target name="verify" description="Checks an image for unqiue pixel values" if="image">
+    <target name="verify" depends="dist" description="Checks an image for unqiue pixel values" if="image">
         <java fork="true" classname="au.com.polly.mci.ImageVerifier">
             <classpath refid="class.path"/>
             <arg value="${image}"/>

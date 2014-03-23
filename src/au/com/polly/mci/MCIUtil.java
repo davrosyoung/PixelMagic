@@ -49,6 +49,9 @@ public static File obtainFile( String filename, String directory ) throws FileNo
     boolean absolute = false;
     String path = null;
 
+//    System.out.println( "MCIUtil::obtainFile()> Invoked with filename=\"" + filename + "\", directory=\"" + directory + "\"" );
+//    System.out.flush();
+
     if ( filename == null )
     {
         throw new NullPointerException( "NULL filename specified" );
@@ -101,6 +104,8 @@ public static File obtainFile( String filename, String directory ) throws FileNo
 
     result = new File( path );
 
+//    System.out.println( "MCIUtil::obtainFile()> returns with result=\"" + result.getAbsolutePath() + "\"" );
+//    System.out.flush();
 
     return result;
 }
@@ -148,6 +153,8 @@ public static String determineImageDirectory()
             break;
         }
      }
+
+//    System.out.println( "MCIUtil::determineImageDirectory()> returns with result=\"" + result + "\"" );
 
     return result;
 }
