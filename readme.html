@@ -17,7 +17,7 @@
 <h3>Run</h3>
 <p>
 <b>With ant:</b>
-To produce a multi coloured image named "poc.png" in the images/ directory, issue the following command;
+To produce a multi coloured image named <font face="fixed,mono,courier"><i>poc.png</i></font> in the <font face="fixed,mono,courier">images/</font> directory, issue the following command;
 <br>
 <font face="fixed,mono,courier">ant poc</font>
 <br>
@@ -38,7 +38,18 @@ To verify that an image contains only unqiue pixels, issue the following command
     <li>Verify default image: <font  face="fixed,mono,courier">java -classpath dist/mci.jar au.com.polly.mci.ImageVerifier poc.png</font></li>
     </ul>
     <br>
-
+</p>
+The result should look something like;<br>
+<hl>
+<img src="images/poc.png" width="800" height="400"/>
+</hl>
+<h3>Run unit tests</h3>
+<p>
+Requires ant to be installed (I actually run the tests successfully within Intelli-J too).
+From the top level directory invoke the following command;
+<br>
+ <font face="fixed,mono,courier">ant test</font>
+<br>
 </p>
 <h2>Manifest</h2>
 <ul>
