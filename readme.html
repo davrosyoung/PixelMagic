@@ -33,8 +33,8 @@ To verify that an image contains only unqiue pixels, issue the following command
 <p>
     <b>Without ant:</b>
     <ul>
-    <li>Create image: <font face="fixed,mono,courier">java -jar dist/mci.jar</font></li>
-    <li>Create named image: <font face="fixed,mono,courier">java  -Dimage.dir=/volumes/x07/mydir -jar dist/mci.jar freddy.png</font> - the order of the arguments is important!</li>
+    <li>Create default image: <font face="fixed,mono,courier">java -jar dist/mci.jar</font></li>
+    <li>Create named image in specific directory: <font face="fixed,mono,courier">java  -Dimage.dir=/volumes/x07/mydir -jar dist/mci.jar freddy.png</font> - the order of the arguments is important!</li>
     <li>Verify default image: <font  face="fixed,mono,courier">java -classpath dist/mci.jar au.com.polly.mci.ImageVerifier poc.png</font></li>
     </ul>
     <br>
