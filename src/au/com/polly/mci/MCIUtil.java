@@ -10,40 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by dave on 21/03/2014.
+ *
+ *
+ * Tuck lengthy and complex code here. All static helper functions.
+ *
+ * @author Dave Young
  */
-public class MCIUtil {
+public class MCIUtil
+{
 
-    public static byte firstOctet(int victim) {
-        return (getOctet(victim, 0));
-    }
-
-    public static byte secondOctet(int victim) {
-        return (getOctet(victim, 0));
-    }
-
-    public static byte thirdOctet(int victim) {
-        return (getOctet(victim, 0));
-    }
-
-    public static byte fourthOctet(int victim) {
-        return (getOctet(victim, 0));
-    }
-
-    public static byte getOctet(int victim, int idx) {
-        return 0;
-    }
-
-
-    public static void setPixel(BufferedImage image, int x, int y, RGB colour) {
-        image.setRGB(x, y, colour.hashCode());
-    }
-
-
-    public static RGB getPixel(BufferedImage image, int x, int y) {
-        RGB result = new RGB(image.getRGB(x, y));
-        return result;
-    }
 
 /**
  *
@@ -147,7 +122,8 @@ public static String determineImageDirectory()
     // investigate the following;
     // system property image.dir
     // environment variable IMAGEDIR
-    // ------------------------------
+    // current working directory with /images appended.
+    // --------------------------------------------------
     if ( System.getProperties().containsKey( "image.dir" ) )
     {
         candidates.add( System.getProperty( "image.dir" ).trim() );
@@ -156,6 +132,11 @@ public static String determineImageDirectory()
     if ( ( System.getenv( "IMAGEDIR" ) != null ) && ( System.getenv( "IMAGEDIR" ).length() > 0 ) )
     {
         candidates.add( System.getenv( "IMAGEDIR" ).trim()  );
+    }
+
+    if ( System.getProperties().containsKey( "user.dir" ) )
+    {
+        candidates.add( System.getProperty( "user.dir" ).trim() + File.separator + "images" );
     }
 
     for ( String path : candidates )

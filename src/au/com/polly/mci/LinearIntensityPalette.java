@@ -5,22 +5,13 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by dave on 23/03/2014.
- *
  *
  * Palette where we start with the darkest colours and end up with the
- * brightest.
+ * brightest. Nice theory, but actual visual outcome did not live up
+ * to expectations.
  *
- * 0x000000
- * 0x000001
- * 0x000100
- * 0x010000
- * 0x000101
- * 0x010001
- * 0x010100
- * 0x010101
- * ...
- * 0xFFFFFF
+ *
+ * @author Dave Young
  *
  */
 public class LinearIntensityPalette implements Palette
@@ -72,6 +63,17 @@ protected LinearIntensityPalette( int numberColours )
 public RGB get(int idx)
 {
     return this.palette.get( idx );
+}
+
+/**
+ * !!!!ONLY TO BE INVOKED BY UNIT TESTS!!!!!
+ *
+ *
+ * @return
+ */
+protected List<RGB> __unit_test_backdoor_getUnderlyingList()
+{
+    return this.palette;
 }
 
 }

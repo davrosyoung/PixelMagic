@@ -6,28 +6,28 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Created by dave on 23/03/2014.
  *
+ * Palette where the entries are ordered by hue, then by saturation.
+ * Nice in theory, but doesn't produce great results. Probably need to
+ * weight the saturation more against the hue.
  *
- * Palette where we start with the darkest colours and end up with the
- * brightest.
+ * @todo weight the hue against the saturation when determining order.
  *
- * 0x000000
- * 0x000001
- * 0x000100
- * 0x010000
- * 0x000101
- * 0x010001
- * 0x010100
- * 0x010101
- * ...
- * 0xFFFFFF
+ * @author Dave Young
  *
  */
 public class HueSaturationPalette implements Palette
 {
-    List<RGB> palette;
+List<RGB> palette;
 
+/**
+ *
+ * @param numberColours sort of irrelevant, only 32768 colours supported at the moment!!
+ *
+ *
+ * Please use the PaletteFactory!! This method is only
+ * intended to be invoked by the PaletteFactory.
+ */
 protected HueSaturationPalette(int numberColours)
 {
     RGB colour;
@@ -70,12 +70,24 @@ protected HueSaturationPalette(int numberColours)
     }
 }
 
+/**
+ * Fulfill our contract to the Palette interface
+ *
+ * @param idx index into the palette
+ * @return colour
+ */
 public RGB get(int idx)
 {
     return this.palette.get( idx );
 }
 
-
+/**
+ * Inner class providing HSL colour comparison with conversion code
+ * borrowed from Rob Camick.
+ *
+ * Tucked this within inner class as the HSL colour space is not
+ * relevant to the rest of this project. It is all contained within here.
+ */
 protected class HueSaturationComparator implements Comparator<RGB>
 {
 
@@ -95,6 +107,9 @@ protected class HueSaturationComparator implements Comparator<RGB>
         return result;
     }
 
+    /**
+     * Inner class representing a HSL colour value.
+     */
     protected class HSL
     {
         float h;
@@ -180,5 +195,18 @@ protected class HueSaturationComparator implements Comparator<RGB>
 
     } // end-CLASS( HSV)
 } //end-CLASS (HSVComparator)
+
+
+/**
+ * !!!!ONLY TO BE INVOKED BY UNIT TESTS!!!!!
+ *
+ *
+ * @return
+ */
+protected List<RGB> __unit_test_backdoor_getUnderlyingList()
+{
+    return this.palette;
+}
+
 } // end-CLASS( HueSaturationPalette )
 

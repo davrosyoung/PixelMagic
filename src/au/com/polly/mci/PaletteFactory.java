@@ -3,6 +3,10 @@ package au.com.polly.mci;
 /**
  * Hide the horrible complexities behind obtaining different
  * sorts of colour palettes behind convenience methods....
+ *
+ * Please use this rather than create palettes directly!
+ *
+ * @author Dave Young
  */
 public class PaletteFactory
 {

@@ -4,6 +4,14 @@ import java.io.File;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ * First class written, just outputs environment and property values.
+ * POC class was used as the application with the main routine to
+ * create the image file.
+ *
+ *
+ * @author Dave Young
+ */
 public class Main {
 
     public static void main(String[] args) {

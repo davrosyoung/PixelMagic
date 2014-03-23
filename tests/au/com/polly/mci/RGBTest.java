@@ -8,7 +8,9 @@ import org.junit.runners.JUnit4;
 import static org.junit.Assert.*;
 
 /**
- * Created by dave on 21/03/2014.
+ * Exercise the RGB class and ensure it behaves as expected.
+ *
+ * @author Dave Young
  */
 @RunWith(JUnit4.class)
 public class RGBTest

@@ -1,8 +1,6 @@
 package au.com.polly.mci;
 
 
-import java.util.Objects;
-
 /**
  * Represents the red, green and blue components of a 24 bit colour pixel.
  * Primarily used to verify that an image is composed of unique colours!
@@ -10,7 +8,7 @@ import java.util.Objects;
  * Because of the silliness of signed bytes in java, its no more expensive and
  * a lot simpler to just store the bytes in int member fields!!
  *
- * Created by dave on 21/03/2014.
+ * @author Dave Young
  */
 public class RGB implements Comparable<RGB>
 {
@@ -90,6 +88,13 @@ public class RGB implements Comparable<RGB>
 
         result = ( this.v[ R ] << 16 ) + ( this.v[ B ] << 8 ) + this.v[ G ];
 
+        return result;
+    }
+
+    @Override
+    public String toString()
+    {
+        String result = String.format( "(r=%02x,g=%02x,b=%02x)", getRed(), getGreen(), getBlue() );
         return result;
     }
 

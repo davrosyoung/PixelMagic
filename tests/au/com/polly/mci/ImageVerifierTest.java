@@ -19,7 +19,9 @@ import java.io.InputStream;
 import static org.junit.Assert.*;
 
 /**
- * Created by dave on 21/03/2014.
+ * Unit tests that use known images to ensure that our image
+ * verification works as expected.
+ *
  */
 @RunWith(JUnit4.class)
 public class ImageVerifierTest
@@ -41,6 +43,11 @@ static public void setup()
     duplicateSixteenPixelPath = imageDirectory + File.separator + duplicateSixteenPixelFilename;
 }
 
+
+/**
+ * The image verifier should determine that each pixel in the
+ * specified image is unique.
+ */
 @Test
 public void testUniqueSixteenPixelImage()
 {
@@ -61,7 +68,10 @@ public void testUniqueSixteenPixelImage()
 
 }
 
-
+/**
+ * The image verifier should determine that this image has more than
+ * one pixel with the identical RGB values.
+ */
 @Test
 public void testDuplicateSixteenPixelImage()
 {

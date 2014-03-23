@@ -17,8 +17,11 @@ public class PaletteFactoryTest
 public static junit.framework.Test suite() { return new JUnit4TestAdapter( PaletteFactoryTest.class ); }
 
 
-
-
+/**
+ * Sanity check on ensuring that the linearly orderred palette is
+ * what we expect and that if we ask for a palette twice, we get
+ * the same instance!!
+ */
 @Test
 public void testObtainingLinearPalette()
 {
@@ -29,14 +32,10 @@ public void testObtainingLinearPalette()
     assertNotNull( paletteAlpha );
     assertNotNull( paletteBeta );
 
-    assertEquals( paletteAlpha, paletteBeta );
+    assertEquals( paletteAlpha, paletteBeta );  // field-wise comparison
+    assertTrue( paletteAlpha == paletteBeta );  // same reference
 
-    for ( int i = 0; i < 100; i++ )
-    {
-        RGB blah = paletteAlpha.get( i );
-        System.out.printf( "color(%03d): r=%02x g=%02x b=%02x\n", i, blah.getRed(), blah.getGreen(), blah.getBlue() );
-    }
-
+    assertEquals( 32768, ((LinearIntensityPalette)paletteAlpha).__unit_test_backdoor_getUnderlyingList().size() );
     RGB colour = paletteAlpha.get( 0 );
     assertEquals( 0x00, colour.getRed() );
     assertEquals( 0x00, colour.getGreen() );
@@ -71,10 +70,22 @@ public void testObtainingLinearPalette()
     assertEquals( 0xF8, colour.getRed() );
     assertEquals( 0xF8, colour.getGreen() );
     assertEquals( 0xF8, colour.getBlue() );
-
-
 }
 
+/**
+ * Sanity check on obtaining a hue saturation palette.
+ * Complex beast to check value for unless you have a good
+ * working knowledge of the HSL colour space.
+ */
+@Test
+public void setGettingHueSaturationPalette()
+{
+    PaletteFactory paletteFactory = new PaletteFactory();
+    Palette palette = paletteFactory.getHueSaturationPalette();
 
+    assertNotNull( palette );
+
+    assertEquals( 32768, ((HueSaturationPalette)palette).__unit_test_backdoor_getUnderlyingList().size() );
+}
 
 }

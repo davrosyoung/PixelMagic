@@ -11,8 +11,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by dave on 21/03/2014.
  * Read an image and ensure that each and every pixel is a different colour...
+ *
+ * @author Dave Young
  */
 public class ImageVerifier
 {
@@ -47,14 +48,14 @@ public void interrogate()
 
     int width = image.getWidth();
     int height = image.getHeight();
-    colours = new HashMap<Integer, Integer>();
+    colours = new HashMap<Integer,Integer>();
     duplicate = false;
     for ( int x = 0; x < width; x++ ) {
         for (int y = 0; y < height; y++)
         {
             int pixel = image.getRGB( x, y );
             int count;
-//            System.out.printf( "(%03d,%03d)=%X\n",x,y,pixel);
+
             if ( colours.containsKey( pixel ) )
             {
                 count = colours.get( pixel ) + 1;
@@ -76,9 +77,6 @@ public boolean isEachPixelUnique() {
     return !duplicate;
 }
 
-protected List<RGB> getRGBColours() {
-    return null;
-}
 
 public static void main(String[] argv)
 {
@@ -124,9 +122,6 @@ public static void main(String[] argv)
     }
 
     System.exit( exitCode );
-
-    System.out.println( "Hello world" );
-    System.exit( 0 );
 }
 
 }

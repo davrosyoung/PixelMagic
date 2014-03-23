@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 /**
  * Battery of tests for the proof of concept program
+ * and the MCI utilities class.
  *
  *
  */
@@ -34,54 +35,7 @@ private static String imageDirectoryPath;
 @BeforeClass
 public static void setup()
 {
-    // determine directory we should be able to write into....
-    // in order of preference...
-    // -Dimage.dir command line directive (ie: system property )
-    // IMAGEDIR environment variable
-    // java.io.tmpdir system property
-    // user.dir system property.
-    // HOME environment variable.
-    // --------------------------------------------------------
-    List<String> candidates = new ArrayList<String>();
-    File imageDirectory = null;
-
-    if ( System.getProperties().containsKey( "image.dir" ) )
-    {
-        candidates.add( System.getProperty( "image.dir" ).trim() );
-    }
-
-    if ( ( System.getenv( "IMAGEDIR" ) != null ) && ( System.getenv( "IMAGEDIR" ).trim().length() > 0 ) )
-    {
-        candidates.add( System.getenv( "IMAGEDIR" ).trim() );
-    }
-
-    if ( System.getProperties().contains( "java.io.tmpdir" ) )
-    {
-        candidates.add( System.getProperty( "java.io.tmpdir").trim() );
-    }
-
-    if ( System.getProperties().containsKey( "user.dir" ) )
-    {
-        candidates.add( System.getProperty( "user.dir" ).trim() );
-    }
-
-    if ( ( System.getenv( "HOME" ) != null ) && ( System.getenv( "HOME" ).trim().length() > 0  ) )
-    {
-        candidates.add( System.getenv( "HOME" ).trim() );
-    }
-
-    // work through the potential places that we can write image files into until we find one that
-    // we think will work...
-    // -----------------------------------------------------------------------------------------
-    for ( String path : candidates )
-    {
-        imageDirectory = new File( path );
-        if ( imageDirectory.exists() && imageDirectory.isDirectory() && imageDirectory.canWrite() )
-        {
-            imageDirectoryPath = path;
-            break;
-        }
-    }
+    imageDirectoryPath = MCIUtil.determineImageDirectory();
 
     System.out.println( "obtained imageDirectoryPath=[" + imageDirectoryPath + "]" );
     System.out.flush();
@@ -91,7 +45,8 @@ public static void setup()
 @Test
 /**
  * Test that we can use binary and to effectively mask out the three
- * least significant bits of a hex value as expected.
+ * least significant bits of a hex value as expected. Just checking
+ * that we know our java binary math syntax!!
  */
 public void testFiveMostSignificantBits()
 {
@@ -279,9 +234,6 @@ public void testObtainValidRelativeFilename()
  * ignoring the bottom two bits (effectively dividing by 4)
  * ignoring the top bit.
  * taking the remaining bits and promoting them up by one bit.
- *
- *
- *
  */
 @Test
 public void testExtractFiveBitValueAndScale()
